@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robot Sensor Dashboard</title>
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body { 
+    font-family: Arial; 
+    padding: 10px;
+    margin: 0;
+    background: #fafafa; 
+}
+
+h2 { 
+    margin: 5px 0 10px 0; 
+}
+
+.section {
+    background: white;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+canvas {
+    width: 100% !important;
+}
+
+#thermalCanvas {
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+/* Make dashboard compact & side-by-side where possible */
+.dashboard-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Each panel gets a flexible width */
+.panel.large {
+    flex: 1.3;
+}
+.panel.small {
+    flex: 1;
+}
+
+</style>
+
+</head>
+<body>
+
+<h2>Robot Arm Sensor Dashboard</h2>
+
+<button onclick="loadSensors()">Refresh Sensors</button>
+
+<div class="dashboard-row">
+
+    <!-- THERMAL -->
+    <div class="section panel large">
+        <h3 style="margin:4px 0;">Thermal Camera</h3>
+        <canvas id="thermalCanvas" width="240" height="240"></canvas>
+    </div>
+
+    <!-- ACCEL -->
+    <div class="section panel small">
+        <h3 style="margin:4px 0;">Accelerometer</h3>
+        <canvas id="accelChart" height="510"></canvas>
+    </div>
+
+    <!-- ULTRASONIC -->
+    <div class="section panel small">
+        <h3 style="margin:4px 0;">Ultrasonic Sensors</h3>
+        <canvas id="ultraChart" height="510"></canvas>
+    </div>
+</div>
+
+<!-- RAW SENSOR DATA + COMMANDS SIDE-BY-SIDE -->
+<div class="dashboard-row">
+
+    <!-- RAW SENSOR DATA -->
+    <div class="section panel">
+        <h3 style="margin:4px 0;">Raw Data</h3>
+        <pre id="rawData" style="max-height:200px; overflow:auto; font-size:12px;"></pre>
+    </div>
+
+    <!-- SEND COMMAND -->
+    <div class="section panel">
+        <h3 style="margin:4px 0;">Send Command</h3>
+        <textarea id="cmd" rows="4" style="width:100%;">{ "name":"ping","args":[] }</textarea>
+        <button onclick="sendCmd()" style="margin-top:5px;">Send</button>
+        <pre id="reply" style="max-height:150px; overflow:auto; font-size:12px;"></pre>
+    </div>
+
+</div>
+
+<script>
+/* --------------------------------------------------------
+GLOBALS
+-------------------------------------------------------- */
+let accelChart;
+let ultraChart;
+
+/* --------------------------------------------------------
+DRAW THERMAL HEATMAP
+-------------------------------------------------------- */
+function drawHeatmap(thermal) {
+    let canvas = document.getElementById("thermalCanvas");
+    let ctx = canvas.getContext("2d");
+
+    let rows = 8;
+    let cols = 8;
+    let cellSize = canvas.width / cols;
+
+    let minT = 20;
+    let maxT = 40;
+
+    function tempToColor(t) {
+        t = Math.min(maxT, Math.max(minT, t));
+        let ratio = (t - minT) / (maxT - minT);
+
+        let r = Math.floor(255 * ratio);
+        let g = 0;
+        let b = Math.floor(255 * (1 - ratio));
+
+        return `rgb(${r},${g},${b})`;
+    }
+
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+            let t = thermal[y][x];
+            ctx.fillStyle = tempToColor(t);
+            ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+        }
+    }
+}
+
+/* --------------------------------------------------------
+ACCELEROMETER CHART (Chart.js Bar Graph)
+-------------------------------------------------------- */
+function updateAccelChart(ax, ay, az) {
+    if (!accelChart) {
+        accelChart = new Chart(document.getElementById("accelChart"), {
+            type: 'bar',
+            data: {
+                labels: ['X', 'Y', 'Z'],
+                datasets: [{
+                    label: 'Acceleration (m/s²)',
+                    data: [ax, ay, az],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#4caf50']
+                }]
+            },
+            options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        suggestedMin: -20,
+                        suggestedMax: 20
+                    }
+                },
+                plugins: {
+                    legend: { display: true }
+                }
+            }
+        });
+    } else {
+        accelChart.data.datasets[0].data = [ax, ay, az];
+        accelChart.update();
+    }
+}
+
+/* --------------------------------------------------------
+ULTRASONIC SENSOR BAR GRAPH
+-------------------------------------------------------- */
+function updateUltrasonicChart(front, side) {
+    if (!ultraChart) {
+        ultraChart = new Chart(document.getElementById("ultraChart"), {
+            type: 'bar',
+            data: {
+                labels: ['Sensor 1 (cm)', 'Sensor 2 (cm)'],
+                datasets: [{
+                    label: 'Distance (cm)',
+                    data: [front, side],
+                    backgroundColor: ['#ffc107', '#9c27b0']
+                }]
+            },
+
+            options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+
+        });
+    } else {
+        ultraChart.data.datasets[0].data = [front, side];
+        ultraChart.update();
+    }
+}
+
+/* --------------------------------------------------------
+LOAD SENSOR DATA FROM PI
+-------------------------------------------------------- */
+async function loadSensors() {
+    try {
+        const res = await fetch("/sensor_data");
+        const data = await res.json();
+
+        document.getElementById("rawData").textContent =
+            JSON.stringify(data, null, 2);
+
+        // Update visualizations
+        drawHeatmap(data.thermal);
+        updateAccelChart(
+            data.accelerometer.x,
+            data.accelerometer.y,
+            data.accelerometer.z
+        );
+        updateUltrasonicChart(
+            data.ultrasonic.front,
+            data.ultrasonic.side
+        );
+
+    } catch (err) {
+        alert("Failed to load sensors: " + err);
+    }
+}
+
+/* --------------------------------------------------------
+SEND JSON COMMAND
+-------------------------------------------------------- */
+async function sendCmd() {
+    let obj;
+
+    try {
+        obj = JSON.parse(document.getElementById("cmd").value);
+    } catch (err) {
+        document.getElementById("reply").textContent = "Invalid JSON: " + err;
+        return;
+    }
+
+    const res = await fetch("/command", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(obj)
+    });
+
+    const reply = await res.json();
+    document.getElementById("reply").textContent =
+        JSON.stringify(reply, null, 2);
+}
+
+// Auto-refresh every second
+setInterval(loadSensors, 500);
+
+// Load once immediately
+loadSensors();
+
+</script>
