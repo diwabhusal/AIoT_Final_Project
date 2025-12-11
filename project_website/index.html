@@ -82,8 +82,7 @@
 					<section id="top" class="one dark cover">
 						<div class="container">
 
-								<iframe width="560" height="315" src="https://youtu.be/jjGkz3fGHuc" frameborder="0" allowfullscreen></iframe>
-
+								<iframe width="560" height="315" src="https://www.youtube.com/embed/jjGkz3fGHuc?si=ZIGRs1WMyJIYoXW8&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 								<h2 class="alt">Ghost Arm</h2>
 								<p>Project Ghost Arm is a <b>low latency</b> robotic arm that mimics human movement. It solves the real-world problem of remote control on low power, offline edge devices.</p>
 
@@ -122,7 +121,7 @@
 
 							<p align="left">Our architecture is shown in the block diagram below. </p>
 							<article class="item">
-								<a href="#" class="image fit"><img src="images/block_diagram.png" alt="" /></a>
+								<a href="#" class="image fit"><img src="images/block_diagram.png" alt="Block diagram: accelerometer, thermal array, ultrasound sensors -> Raspberry Pi (on-device ML) -> robotic arm" /></a>
 								<header>
 									<h3>High level architecture of GhostArm</h3>
 								</header>
@@ -182,7 +181,15 @@
 								<h2>References</h2>
 							</header>
 
-							<p align="left">Blah blah blah</p>
+							<p align="left">Key references and libraries used in this project:</p>
+							<ul>
+								<li><a href="https://pytorch.org/">PyTorch</a> — deep learning framework used for training and inference.</li>
+								<li><a href="https://github.com/adafruit/Adafruit_CircuitPython_AMG88xx">Adafruit CircuitPython AMG88xx</a> — driver for the AMG8833 8x8 thermal array.</li>
+								<li><a href="https://github.com/adafruit/Adafruit_CircuitPython_ADXL34x">Adafruit CircuitPython ADXL34x</a> — driver for ADXL34x accelerometers (e.g., ADXL345).</li>
+								<li><a href="https://www.analog.com/media/en/technical-documentation/data-sheets/ADXL345.pdf">ADXL345 datasheet (Analog Devices)</a> — accelerometer used in our sensor rig.</li>
+								<li><a href="https://www.mouser.com/datasheet/2/670/AMG8833-1018789.pdf">AMG8833 (Panasonic) datasheet</a> — thermal array sensor documentation.</li>
+								<li><a href="https://gpiozero.readthedocs.io/">gpiozero</a> and <a href="https://sourceforge.net/p/raspberry-gpio-python/wiki/Home/">RPi.GPIO</a> — Raspberry Pi GPIO libraries used for ultrasonic sensors and general I/O.</li>
+							</ul>
 
 						</div>
 					</section>
