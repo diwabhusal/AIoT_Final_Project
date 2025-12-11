@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<!--
+	Prologue by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Columbia University EECS E4764 IoT Project Report #21</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<div id="header">
+
+				<div class="top">
+
+					<!-- Logo -->
+						<div id="logo">
+							<!-- <span class="image avatar48"><img src="images/avatar.jpg" alt="" /></span> -->
+							<h1 id="title">Ghost Arm</h1>
+							<p>Columbia University <br>
+								EECS E4764 Fall'25 <br>
+								Artificial Intelligence of Things<br>
+								Team 21 Project Report
+							</p>
+						</div>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<!--
+
+								Prologue's nav expects links in one of two formats:
+
+								1. Hash link (scrolls to a different section within the page)
+
+								   <li><a href="#foobar" id="foobar-link" class="icon fa-whatever-icon-you-want skel-layers-ignoreHref"><span class="label">Foobar</span></a></li>
+
+								2. Standard link (sends the user to another page/site)
+
+								   <li><a href="http://foobar.tld" id="foobar-link" class="icon fa-whatever-icon-you-want"><span class="label">Foobar</span></a></li>
+
+							-->
+							<ul>
+								<li><a href="#top" id="top-link" class="skel-layers-ignoreHref"><span class="icon fa-home">Abstract</span></a></li>
+								<li><a href="#motivation" id="motivation-link" class="skel-layers-ignoreHref"><span class="icon fa-th">Motivation</span></a></li>
+								<li><a href="#system" id="system-link" class="skel-layers-ignoreHref"><span class="icon fa-th">System</span></a></li>
+								<li><a href="#results" id="results-link" class="skel-layers-ignoreHref"><span class="icon fa-th">Results</span></a></li>
+								<li><a href="#references" id="references-link" class="skel-layers-ignoreHref"><span class="icon fa-th">References</span></a></li>
+								<li><a href="#team" id="team-link" class="skel-layers-ignoreHref"><span class="icon fa-user">Our Team</span></a></li>
+								<li><a href="#contact" id="contact-link" class="skel-layers-ignoreHref"><span class="icon fa-envelope">Contact</span></a></li>
+							</ul>
+						</nav>
+
+				</div>
+
+				<div class="bottom">
+
+					<!-- Social Icons -->
+						<ul class="icons">
+							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
+							<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+
+				</div>
+
+			</div>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- Intro -->
+					<section id="top" class="one dark cover">
+						<div class="container">
+
+								<iframe width="560" height="315" src="https://youtu.be/jjGkz3fGHuc" frameborder="0" allowfullscreen></iframe>
+
+								<h2 class="alt">Ghost Arm</h2>
+								<p>Project Ghost Arm is a <b>low latency</b> robotic arm that mimics human movement. It solves the real-world problem of remote control on low power, offline edge devices.</p>
+
+
+							<footer>
+								<a href="#motivation" class="button scrolly">Motivation</a>
+							</footer>
+
+						</div>
+					</section>
+
+				<!-- Portfolio -->
+					<section id="motivation" class="two">
+						<div class="container">
+
+							<header>
+								<h2>Motivation</h2>
+							</header>
+
+							<p align="left">The motivation behind GhostArm is three-fold. The first and main motivation of this project is to push the capabilities of modern edge compute and ml stack. We aim to answer the question, leveraging low power sensors and models that can run natively on the edge, can we create efficient remote control systems? As it is based on the edge device RaspBerry Pi, using sensors such as accelerometers, thermal sensors and ultrasound sensors, we are aiming to show that such a low power system can work. And finally, robot arms are cool. do we really need a reason better than that?  </p>
+
+
+
+						</div>
+					</section>
+
+
+					<section id="system" class="three">
+						<div class="container">
+
+							<header>
+								<h2>System</h2>
+							</header>
+
+							<h3 align="left">Architecture</h3>
+
+							<p align="left">Our architecture is shown in the block diagram below. </p>
+							<article class="item">
+								<a href="#" class="image fit"><img src="images/block_diagram.png" alt="" /></a>
+								<header>
+									<h3>High level architecture of GhostArm</h3>
+								</header>
+							</article>
+							<p align="left">The block diagram illustrates the key components and their interactions within the GhostArm system.<br />
+							The system consists of the following main components:
+							<ul>
+								<li><strong>Input Sensors:</strong> These sensors capture the user's arm movements and gestures. They include accelerometers, ultrasound sensors and thermal sensors.</li>
+								<li><strong>Processing Unit:</strong> The main control unit is the Raspberry Pi. This processes the sensor data in real-time. It runs the machine learning models that interpret the user's movements. It also communicates with the robotic arm to send movement commands.</li>
+								<li><strong>Machine Learning Models:</strong> These models are trained to recognize specific gestures and translate them into commands for the robotic arm. They run on the processing unit and are optimized for low latency.</li>
+								<li><strong>Robotic Arm:</strong> The physical component that executes the commands received from the processing unit. It mimics the user's arm movements based on the interpreted data.</li>
+								<li><strong>Cloud:</strong> The cloud component is responsible for storing user data and providing additional processing power when needed. It can be used for more complex computations that are not feasible on the edge device, such as actually training our models.</li>
+							</ul>
+
+
+
+							<h3 align="left">Technical Components</h3>
+
+							<p align="left">Blah blah blah</p>
+
+
+							<h3 align="left">Prototype</h3>
+
+							<p align="left">Blah blah blah</p>
+
+
+
+						</div>
+					</section>
+
+
+					<section id="results" class="two">
+						<div class="container">
+
+							<header>
+								<h2>Results</h2>
+							</header>
+
+							<p align="left">Remember to use figures to help illustrate results</p>
+
+
+							<article class="item">
+								<a href="#" class="image fit"><img src="images/pic06.jpg" alt="" /></a>
+								<header>
+									<h3>Caption</h3>
+								</header>
+							</article>
+
+
+						</div>
+					</section>
+
+					<section id="references" class="three">
+						<div class="container">
+
+							<header>
+								<h2>References</h2>
+							</header>
+
+							<p align="left">Blah blah blah</p>
+
+						</div>
+					</section>
+
+
+				<!-- About Me -->
+					<section id="team" class="two">
+						<div class="container">
+
+							<header>
+								<h2>Our Team</h2>
+							</header>
+
+							<!-- <a href="#" class="image featured"><img src="images/pic08.jpg" alt="" /></a> -->
+
+
+							<div class="row">
+								<div class="4u 12u$(mobile)">
+									<article class="item">
+										<a href="#" class="image fit"><img src="images/pic07.jpg" alt="" /></a>
+										<header>
+											<h3>Team Member</h3>
+											<p>Description and link</p>
+										</header>
+									</article>
+								</div>
+								<div class="4u 12u$(mobile)">
+									<article class="item">
+										<a href="#" class="image fit"><img src="images/pic07.jpg" alt="" /></a>
+										<header>
+											<h3>Team Member</h3>
+											<p>Description and link</p>
+										</header>
+									</article>
+								</div>
+								<div class="4u$ 12u$(mobile)">
+									<article class="item">
+										<a href="#" class="image fit"><img src="images/pic07.jpg" alt="" /></a>
+										<header>
+											<h3>Team Member</h3>
+											<p>Description and link</p>
+										</header>
+									</article>
+								</div>
+							</div>
+
+						</div>
+					</section>
+
+				<!-- Contact -->
+					<section id="contact" class="four">
+						<div class="container">
+
+							<header>
+								<h2>Contact</h2>
+							</header>
+
+							<p align="left">
+								<strong>Contact Name 1: </strong>email here</br>
+								<strong>Contact Name 2: </strong>email here</br>
+								<strong>Other Contact Information: </strong>other contact info</br>
+							</br>
+								<strong>Columbia University </strong><a href="http://www.ee.columbia.edu">Department of Electrical Engineering</a><br>
+								<!-- <strong>Class Website:</strong>
+									<a href="https://edblogs.columbia.edu/eecs4764-001-2019-3/">Columbia University EECS E4764 Fall '22 IoT</a></br> -->
+								<strong>Instructor:</strong> <a href="https://www.engineering.columbia.edu/faculty-staff/directory/xiaofan-fred-jiang">Professsor Xiaofan (Fred) Jiang</a>
+							</p>
+
+
+							<!-- <form method="post" action="#">
+								<div class="row">
+									<div class="6u 12u$(mobile)"><input type="text" name="name" placeholder="Name" /></div>
+									<div class="6u$ 12u$(mobile)"><input type="text" name="email" placeholder="Email" /></div>
+									<div class="12u$">
+										<textarea name="message" placeholder="Message"></textarea>
+									</div>
+									<div class="12u$">
+										<input type="submit" value="Send Message" />
+									</div>
+								</div>
+							</form> -->
+
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<div id="footer">
+
+				<!-- Copyright -->
+					<ul class="copyright">
+						<li>&copy; IoT Project | All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollzer.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
