@@ -112,12 +112,12 @@ def load_model(model_type: str, device: torch.device, num_classes: int) -> torch
     if model_type == "lstm":
         print("[live_inference] Using LSTM-based GestureModel (models.GestureModel)")
         ModelClass = models.GestureModel
-        state_path = "gesture_model_5_classes.pt"
+        state_path = "models/LSTM.pt"
 
     elif model_type == "transformer":
         print("[live_inference] Using Transformer-based model (transformer.GestureTransformer)")
         ModelClass = tf_models.GestureTransformer
-        state_path = "best_transformer_5_classes.pt"
+        state_path = "models/transformer.pt"
 
     else:
         raise ValueError(f"Unknown model_type '{model_type}' (expected 'lstm' or 'transformer').")
