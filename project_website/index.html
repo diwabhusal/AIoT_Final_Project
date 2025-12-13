@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Columbia University EECS E4764 IoT Project Report #0</title>
+		<title>Columbia University EECS E4764 IoT Project Report #21</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -24,11 +24,11 @@
 					<!-- Logo -->
 						<div id="logo">
 							<!-- <span class="image avatar48"><img src="images/avatar.jpg" alt="" /></span> -->
-							<h1 id="title">Project Name</h1>
+							<h1 id="title">Ghost Arm</h1>
 							<p>Columbia University <br>
 								EECS E4764 Fall'25 <br>
 								Artificial Intelligence of Things<br>
-								Team 0 Project Report
+								Team 21 Project Report
 							</p>
 						</div>
 
@@ -82,11 +82,22 @@
 					<section id="top" class="one dark cover">
 						<div class="container">
 
-								<iframe width="560" height="315" src="https://www.youtube.com/embed/_AlcRoqS65E" frameborder="0" allowfullscreen></iframe>
+								<iframe width="560" height="315" src="https://youtu.be/jjGkz3fGHuc" frameborder="0" allowfullscreen></iframe>
 
-								<h2 class="alt">Project Name</h2>
-								<p>Project Wonderland is a blah blah blah</p>
-								<p>(Abstract here)</p>
+								<h2 class="alt">Ghost Arm</h2>
+								<p align="left">
+									GhostArm is a real-time gesture recognition and robotic control system built entirely on low-power, 
+									edge-compute hardware. Using a multimodal sensor array comprised of a 3-axis IMU, an 8×8 thermal camera, 
+									and dual ultrasonic distance sensors, the system captures human arm movements and interprets them through 
+									a unified deep learning pipeline. Each sensor stream is temporally synchronized, encoded using 
+									lightweight convolutional networks, and fused within a Transformer-based temporal model. The final 
+									classifier runs locally on a Raspberry Pi, enabling low-latency gesture recognition without reliance 
+									on cloud services. GhostArm demonstrates that expressive human–robot interaction can be achieved using 
+									inexpensive sensors, efficient models, and edge-native machine learning, making the system suitable for 
+									remote control, assistive robotics, and constrained environments where privacy, bandwidth, and power 
+									are critical limitations.
+								</p>
+
 
 
 							<footer>
@@ -104,7 +115,7 @@
 								<h2>Motivation</h2>
 							</header>
 
-							<p align="left">You can choose to use photos or figures to help</p>
+							<p align="left">The motivation behind GhostArm is three-fold. The first and main motivation of this project is to push the capabilities of modern edge compute and ml stack. We aim to answer the question, leveraging low power sensors and models that can run natively on the edge, can we create efficient remote control systems? As it is based on the edge device RaspBerry Pi, using sensors such as accelerometers, thermal sensors and ultrasound sensors, we are aiming to show that such a low power system can work. And finally, robot arms are cool. do we really need a reason better than that?  </p>
 
 
 
@@ -119,16 +130,81 @@
 								<h2>System</h2>
 							</header>
 
-							<p align="left">Remember to use combination of descriptions, photos, and figures</p>
-
 							<h3 align="left">Architecture</h3>
 
-							<p align="left">Blah blah blah</p>
+							<p align="left">Our architecture is shown in the block diagram below. </p>
+							<article class="item">
+								<a href="#" class="image fit"><img src="images/block_diagram.png" alt="" /></a>
+								<header>
+									<h3>High level architecture of GhostArm</h3>
+								</header>
+							</article>
+							<p align="left">The block diagram illustrates the key components and their interactions within the GhostArm system.<br />
+							The system consists of the following main components:
+							<ul>
+								<li><strong>Input Sensors:</strong> These sensors capture the user's arm movements and gestures. They include accelerometers, ultrasound sensors and thermal sensors.</li>
+								<li><strong>Processing Unit:</strong> The main control unit is the Raspberry Pi. This processes the sensor data in real-time. It runs the machine learning models that interpret the user's movements. It also communicates with the robotic arm to send movement commands.</li>
+								<li><strong>Machine Learning Models:</strong> 
+									Our gesture recognition pipeline uses a multimodal deep learning architecture designed for 
+									time-series fusion. Raw data from the IMU and ultrasonic sensors is processed using lightweight 
+									1D convolutional encoders, while the thermal sensor sequence is encoded using a compact 2D CNN. 
+									All modality embeddings are fused into a single temporal sequence and passed to a Transformer 
+									encoder. We selected the Transformer over traditional recurrent models because its 
+									self-attention mechanism can model long-range temporal structure and inter-sensor relationships 
+									more effectively, especially when each modality updates at different sampling rates. This enables 
+									more robust gesture recognition under real-world variability. The resulting model is optimized 
+									to run on-device with low latency, allowing the Raspberry Pi to classify gestures in real time 
+									without cloud resources.
+								</li>
+
+								<li><strong>Robotic Arm:</strong> The physical component that executes the commands received from the processing unit. It mimics the user's arm movements based on the interpreted data.</li>
+								<li><strong>Cloud:</strong> The cloud component is responsible for storing user data and providing additional processing power when needed. It can be used for more complex computations that are not feasible on the edge device, such as actually training our models.</li>
+							</ul>
+
 
 
 							<h3 align="left">Technical Components</h3>
 
-							<p align="left">Blah blah blah</p>
+							<p align="left">The purpose and purchase links for each technical component are outlined as follows:</p>
+
+							</ul>
+								<li><strong>Robot Arm (KEYESTUDIO 4DOF Arduino Robot):</strong> Formed the robot arm itself, controlled using 4 different motor servos that can be programmed and commands can be sent from the Raspberry Pi to the Robot Arm Arduino using the UART Serial conenction. (https://www.amazon.com/KEYESTUDIO-Arduino-Electronic-Robotics-Bluetooth/dp/B08B8GJSH9) </li>
+								<li><strong>IR Imager (AMG8833 8 * 8 IR Thermal Camera):</strong> Can map changes in x and y directions as distinct heat signatures. Placed right below the hand for operation and for taking in testing data. (https://www.amazon.com/DORHEA-Breakout-Temperature-Grid-Eye-Raspberry/dp/B092QB1G2Q?th=1) </li>
+								<li><strong>Ultrasonic Distance Sensor (HC-SR04) (Need 2 components): </strong> Can map changes in x and y and can easily detect passes using two of these sensors. (https://www.adafruit.com/product/3942?srsltid=AfmBOoo4qMDITWUaVr6yR104WXtztXEKXNgMC4gKLOpdzNuU9GIvExOv)</li>
+								<li><strong>Aceelerometer (ADXL345):</strong> Can study changes in acceleration and roation to help identify the specific gesture being performed. (https://www.analog.com/en/products/adxl345.html) </li>
+								<li><strong>Raspberry Pi 5:</strong> Functions as the main controlling board of the entire project.</li>
+							</ul>
+
+							<p align="left"> In order to setup the basic hardware interface the following steps will be necessary:</p>
+							</ul>
+								<li> First flash the Arduino Microcontroller using the code in RobotMC/Robot_MC_Codes/MC_ESP.ino, other codes have also been provided to generally test functionality of the robot itself </li>
+								<li> Now connect the Arduino MC using UART usb port on the Raspberry Pi. File RaspberryPi/Robot.py can be used to test functionality of this connection. </li>
+								<li> Then connect the sensors to relevant Raspberry Pi pins, considering that the IMU and Thermal Camera use I2C connections while the Distance Sensor uses general GPIO pins using voltage dividers as connections. Functionality of these connections can be tested using the files in RaspberryPi/Sensors_Test/ or also to generally run RaspberryPi/sensors_test.py. Those files also contain the general GPIO pins used for running our demo.</li>
+								<li> Now given all of this, the basic interface is all setup! RasperryPi/server/server.py can be used to do live visualization of the sensor data! </li>
+							</ul>
+
+							
+							<h3 align="left">Software Repository Structure</h3>
+
+					<p align="left">
+						The Raspberry Pi software stack is organized into modular scripts that separately handle data
+						collection, real-time inference, robotic actuation, and the web-based visualization interface:
+					</p>
+
+<pre><code>project_root/
+├── server.py              # Backend server exposing sensor and command APIs
+├── index.html             # Web dashboard for live visualization and control
+├── live_inference.py      # On-device gesture recognition pipeline
+├── robot_control.py       # Translation of gestures into servo commands
+├── collect_samples_2.py   # Dataset collection and labeling utility
+└── models/
+    └── &lt;model_file&gt;        # Trained gesture recognition model</code></pre>
+
+					<p align="left">
+						The dashboard periodically queries the backend for live sensor data and sends high-level control
+						commands, while the backend coordinates inference and actuation in real time.
+					</p>
+
 
 
 							<h3 align="left">Prototype</h3>
@@ -169,10 +245,56 @@
 								<h2>References</h2>
 							</header>
 
-							<p align="left">Blah blah blah</p>
+							<p align="left">
+								<b>[1]</b> Hochreiter, S., & Schmidhuber, J. (1997). 
+								"Long Short-Term Memory." <i>Neural Computation</i>.<br><br>
+
+								<b>[2]</b> Vaswani, A. et al. (2017). 
+								"Attention Is All You Need." <i>Advances in Neural Information Processing Systems</i>.<br><br>
+
+								<b>[3]</b> Zeng, M., Nguyen, L. T., Yu, B., Mengshoel, O. J., Zhu, J., Wu, P., & Zhang, J. (2014). 
+								"Convolutional Neural Networks for Human Activity Recognition Using Mobile Sensors." 
+								<i>IEEE MobiCASE</i>.<br><br>
+
+								<b>[4]</b> Hammerla, N. Y., Halloran, S., & Plötz, T. (2016). 
+								"Deep, Convolutional, and Recurrent Models for Human Activity Recognition Using Wearables." 
+								<i>IJCAI</i>.<br><br>
+
+								<b>[5]</b> Adafruit AMG8833 Thermal Camera Datasheet. 
+								Adafruit Industries. 
+								https://cdn-learn.adafruit.com/downloads/pdf/adafruit-amg8833-8x8-thermal-camera-sensor.pdf<br><br>
+
+								<b>[6]</b> HC-SR04 Ultrasonic Sensor Technical Specification. 
+								ElecFreaks / EEVblog. 
+								https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf<br><br>
+
+								<b>[7]</b> Ravi, N. et al. (2005). 
+								"Activity Recognition from Accelerometer Data." 
+								<i>AAAI</i>.<br><br>
+
+								<b>[8]</b> Lane, N. D. et al. (2015). 
+								"DeepEar: Robust Smartphone Audio Sensing in Unconstrained Acoustic Environments Using Deep Learning." 
+								<i>UbiComp</i>.<br><br>
+
+								<b>[9]</b> Zhang, Z. (2012). 
+								"Motions and Gestures Recognition by Multimodal Sensor Fusion." 
+								<i>IEEE Sensors Journal</i>.<br><br>
+
+								<b>[10]</b> Raspberry Pi Documentation. 
+								https://www.raspberrypi.com/documentation/<br><br>
+
+								<b>[11]</b> Paszke, A. et al. (2019). 
+								"PyTorch: An Imperative Style, High-Performance Deep Learning Library." 
+								<i>NeurIPS</i>.<br><br>
+
+								<b>[12]</b> Wu, Y. et al. (2019). 
+								"On-device Machine Learning: An Algorithmic and Hardware Co-design Approach." 
+								<i>ACM Computing Surveys</i>.
+							</p>
 
 						</div>
 					</section>
+
 
 
 				<!-- About Me -->
@@ -189,10 +311,15 @@
 							<div class="row">
 								<div class="4u 12u$(mobile)">
 									<article class="item">
-										<a href="#" class="image fit"><img src="images/pic07.jpg" alt="" /></a>
+										<a href="#" class="image fit"><img src="images/sri_pfp.jpg" alt="" /></a>
 										<header>
-											<h3>Team Member</h3>
-											<p>Description and link</p>
+											<h3>Sri Iyengar</h3>
+												<p>
+													I am a Master's in Computer Engineering Student graduating in December 2025. I am passionate about Deep Learning and Machine Learning. 
+													<a href="https://www.linkedin.com/in/sri-iyengar" target="_blank">
+														LinkedIn
+													</a>.
+												</p>
 										</header>
 									</article>
 								</div>
@@ -228,10 +355,11 @@
 							</header>
 
 							<p align="left">
-								<strong>Contact Name 1: </strong>email here</br>
-								<strong>Contact Name 2: </strong>email here</br>
-								<strong>Other Contact Information: </strong>other contact info</br>
-							</br>
+								<strong>Sri Iyengar: </strong>si2468@columbia.edu</br>
+								<strong>Diwa Bhusal: </strong>db3472@columbia.edu</br>
+								<strong>Aymen Ahmed Norain: </strong>aan2161@columbia.edu</br>
+								<strong>Saivignesh Venkatraman: </strong>sv2795@columbia.edu</br>
+												</br>
 								<strong>Columbia University </strong><a href="http://www.ee.columbia.edu">Department of Electrical Engineering</a><br>
 								<!-- <strong>Class Website:</strong>
 									<a href="https://edblogs.columbia.edu/eecs4764-001-2019-3/">Columbia University EECS E4764 Fall '22 IoT</a></br> -->
@@ -247,7 +375,7 @@
 										<textarea name="message" placeholder="Message"></textarea>
 									</div>
 									<div class="12u$">
-										<input type="submit" value="Send Message" />
+										S<input type="submit" value="Send Message" />
 									</div>
 								</div>
 							</form> -->
