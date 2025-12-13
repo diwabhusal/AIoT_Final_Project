@@ -191,14 +191,50 @@
 						collection, real-time inference, robotic actuation, and the web-based visualization interface:
 					</p>
 
-<pre><code>project_root/
-├── server.py              # Backend server exposing sensor and command APIs
-├── index.html             # Web dashboard for live visualization and control
-├── live_inference.py      # On-device gesture recognition pipeline
-├── robot_control.py       # Translation of gestures into servo commands
-├── collect_samples_2.py   # Dataset collection and labeling utility
-└── models/
-    └── &lt;model_file&gt;        # Trained gesture recognition model</code></pre>
+<div style="text-align: left;">
+   <pre><code>AIoT_Final_Project/
+├── RobotMC/                           # Microcontroller-side code (ESP32 / Arduino)
+│   ├── Robot_Test_Code/               # Experimental / prototyping firmware
+│   │   ├── Robot_Test_Code.ino        # Basic robot control and sensor tests
+│   │   └── MC_ESP.ino                 # ESP32 communication and control logic
+│   │
+│   └── Robot_MC_Codes/                # Finalized microcontroller firmware
+│       ├── Robot_Test_Code.ino        # Stable robot motion and actuation code
+│       └── MC_ESP.ino                 # ESP32 firmware for serial/WiFi control
+│
+├── RasberryPi/                        # On-device computation & ML inference
+│   ├── server/                        # Backend + web dashboard
+│   │   ├── server.py                  # API server for sensor streaming and robot control
+│   │   └── index.html                 # Web-based dashboard for live visualization
+│   │
+│   ├── sensors_test/                  # test the different sensors in teh sensor array
+│   │   ├── accel_test.py
+│   │   └── thermal_test.py
+│   │   └── ultrasonic_test.py
+│   │
+│   ├── models/                        # Trained machine learning models
+│   │   └── transformer.pt             # Gesture recognition Transformer model
+|	|	└── LSTM.pt					   # Gesture recognition LSTM model
+│   │
+│   ├── data_root/                     # Labeled sensor dataset
+│   │   ├── move_left/                 # Gesture class: move left
+│   │   ├── move_right/                # Gesture class: move right
+│   │   ├── move_up/                   # Gesture class: move up
+│   │   ├── move_down/                 # Gesture class: move down
+│   │   └── ... (CSV recordings)       # Time-series sensor data files
+│   │
+│   ├── collect_samples_2.py           # Sensor data collection and labeling script
+│   ├── live_inference.py              # Real-time gesture inference pipeline
+│   └── robot_control.py               # Maps predicted gestures to robot commands
+│   └── transformer.py                 # Training the Transformer model
+│   └── LSTM.py               		   # Training the LSTM model
+│   └── sensor_data_collect.py         # Collect Sensor Data
+│
+└── README.md                          # Project overview and setup instructions
+</code></pre>
+
+</div>
+
 
 					<p align="left">
 						The dashboard periodically queries the backend for live sensor data and sends high-level control
