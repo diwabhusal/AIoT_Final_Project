@@ -165,25 +165,29 @@
 
 							<h3 align="left">Technical Components</h3>
 
-							<p align="left">The purpose and purchase links for each technical component are outlined as follows:</p>
+							<div style="text-align: left;">
 
-							</ul>
-								<li><strong>Robot Arm (KEYESTUDIO 4DOF Arduino Robot):</strong> Formed the robot arm itself, controlled using 4 different motor servos that can be programmed and commands can be sent from the Raspberry Pi to the Robot Arm Arduino using the UART Serial conenction. (https://www.amazon.com/KEYESTUDIO-Arduino-Electronic-Robotics-Bluetooth/dp/B08B8GJSH9) </li>
-								<li><strong>IR Imager (AMG8833 8 * 8 IR Thermal Camera):</strong> Can map changes in x and y directions as distinct heat signatures. Placed right below the hand for operation and for taking in testing data. (https://www.amazon.com/DORHEA-Breakout-Temperature-Grid-Eye-Raspberry/dp/B092QB1G2Q?th=1) </li>
-								<li><strong>Ultrasonic Distance Sensor (HC-SR04) (Need 2 components): </strong> Can map changes in x and y and can easily detect passes using two of these sensors. (https://www.adafruit.com/product/3942?srsltid=AfmBOoo4qMDITWUaVr6yR104WXtztXEKXNgMC4gKLOpdzNuU9GIvExOv)</li>
-								<li><strong>Aceelerometer (ADXL345):</strong> Can study changes in acceleration and roation to help identify the specific gesture being performed. (https://www.analog.com/en/products/adxl345.html) </li>
-								<li><strong>Raspberry Pi 5:</strong> Functions as the main controlling board of the entire project.</li>
-							</ul>
+								<p>The purpose and purchase links for each technical component are outlined as follows:</p>
 
-							<p align="left"> In order to setup the basic hardware interface the following steps will be necessary:</p>
-							</ul>
-								<li> First flash the Arduino Microcontroller using the code in RobotMC/Robot_MC_Codes/MC_ESP.ino, other codes have also been provided to generally test functionality of the robot itself </li>
-								<li> Now connect the Arduino MC using UART usb port on the Raspberry Pi. File RaspberryPi/Robot.py can be used to test functionality of this connection. </li>
-								<li> Then connect the sensors to relevant Raspberry Pi pins, considering that the IMU and Thermal Camera use I2C connections while the Distance Sensor uses general GPIO pins using voltage dividers as connections. Functionality of these connections can be tested using the files in RaspberryPi/Sensors_Test/ or also to generally run RaspberryPi/sensors_test.py. Those files also contain the general GPIO pins used for running our demo.</li>
-								<li> Now given all of this, the basic interface is all setup! RasperryPi/server/server.py can be used to do live visualization of the sensor data! </li>
-							</ul>
+								<ol>
+									<li><strong>Robot Arm (KEYESTUDIO 4DOF Arduino Robot):</strong> Controlled via four servo motors and commanded over UART from the Raspberry Pi.</li>
+									<li><strong>IR Imager (AMG8833 8×8 Thermal Camera):</strong> Captures heat-based spatial changes for gesture recognition.</li>
+									<li><strong>Ultrasonic Sensors (HC-SR04, two units):</strong> Detects depth and lateral motion using distance measurements.</li>
+									<li><strong>Accelerometer (ADXL345):</strong> Measures acceleration and rotation during gestures.</li>
+									<li><strong>Raspberry Pi 5:</strong> Central compute and control unit.</li>
+								</ol>
 
-							
+								<p>Hardware setup procedure:</p>
+
+								<ol>
+									<li>Flash the Arduino using <code>RobotMC/Robot_MC_Codes/MC_ESP.ino</code>.</li>
+									<li>Connect the Arduino to the Raspberry Pi via UART and test using <code>RaspberryPi/Robot.py</code>.</li>
+									<li>Wire sensors to the Raspberry Pi (I2C for IMU/thermal, GPIO for ultrasonic sensors).</li>
+									<li>Run <code>RaspberryPi/server/server.py</code> for live sensor visualization.</li>
+								</ol>
+
+							</div>
+	
 							<h3 align="left">Software Repository Structure</h3>
 
 					<p align="left">
@@ -191,49 +195,49 @@
 						collection, real-time inference, robotic actuation, and the web-based visualization interface:
 					</p>
 
-<div style="text-align: left;">
-   <pre><code>AIoT_Final_Project/
-├── RobotMC/                           # Microcontroller-side code (ESP32 / Arduino)
-│   ├── Robot_Test_Code/               # Experimental / prototyping firmware
-│   │   ├── Robot_Test_Code.ino        # Basic robot control and sensor tests
-│   │   └── MC_ESP.ino                 # ESP32 communication and control logic
-│   │
-│   └── Robot_MC_Codes/                # Finalized microcontroller firmware
-│       ├── Robot_Test_Code.ino        # Stable robot motion and actuation code
-│       └── MC_ESP.ino                 # ESP32 firmware for serial/WiFi control
-│
-├── RasberryPi/                        # On-device computation & ML inference
-│   ├── server/                        # Backend + web dashboard
-│   │   ├── server.py                  # API server for sensor streaming and robot control
-│   │   └── index.html                 # Web-based dashboard for live visualization
-│   │
-│   ├── sensors_test/                  # test the different sensors in teh sensor array
-│   │   ├── accel_test.py
-│   │   └── thermal_test.py
-│   │   └── ultrasonic_test.py
-│   │
-│   ├── models/                        # Trained machine learning models
-│   │   └── transformer.pt             # Gesture recognition Transformer model
-|	|	└── LSTM.pt					   # Gesture recognition LSTM model
-│   │
-│   ├── data_root/                     # Labeled sensor dataset
-│   │   ├── move_left/                 # Gesture class: move left
-│   │   ├── move_right/                # Gesture class: move right
-│   │   ├── move_up/                   # Gesture class: move up
-│   │   ├── move_down/                 # Gesture class: move down
-│   │   └── ... (CSV recordings)       # Time-series sensor data files
-│   │
-│   ├── collect_samples_2.py           # Sensor data collection and labeling script
-│   ├── live_inference.py              # Real-time gesture inference pipeline
-│   └── robot_control.py               # Maps predicted gestures to robot commands
-│   └── transformer.py                 # Training the Transformer model
-│   └── LSTM.py               		   # Training the LSTM model
-│   └── sensor_data_collect.py         # Collect Sensor Data
-│
-└── README.md                          # Project overview and setup instructions
-</code></pre>
+					<div style="text-align: left;">
+					<pre><code>AIoT_Final_Project/
+					├── RobotMC/                           # Microcontroller-side code (ESP32 / Arduino)
+					│   ├── Robot_Test_Code/               # Experimental / prototyping firmware
+					│   │   ├── Robot_Test_Code.ino        # Basic robot control and sensor tests
+					│   │   └── MC_ESP.ino                 # ESP32 communication and control logic
+					│   │
+					│   └── Robot_MC_Codes/                # Finalized microcontroller firmware
+					│       ├── Robot_Test_Code.ino        # Stable robot motion and actuation code
+					│       └── MC_ESP.ino                 # ESP32 firmware for serial/WiFi control
+					│
+					├── RasberryPi/                        # On-device computation & ML inference
+					│   ├── server/                        # Backend + web dashboard
+					│   │   ├── server.py                  # API server for sensor streaming and robot control
+					│   │   └── index.html                 # Web-based dashboard for live visualization
+					│   │
+					│   ├── sensors_test/                  # test the different sensors in teh sensor array
+					│   │   ├── accel_test.py
+					│   │   └── thermal_test.py
+					│   │   └── ultrasonic_test.py
+					│   │
+					│   ├── models/                        # Trained machine learning models
+					│   │   └── transformer.pt             # Gesture recognition Transformer model
+					|	|	└── LSTM.pt					   # Gesture recognition LSTM model
+					│   │
+					│   ├── data_root/                     # Labeled sensor dataset
+					│   │   ├── move_left/                 # Gesture class: move left
+					│   │   ├── move_right/                # Gesture class: move right
+					│   │   ├── move_up/                   # Gesture class: move up
+					│   │   ├── move_down/                 # Gesture class: move down
+					│   │   └── ... (CSV recordings)       # Time-series sensor data files
+					│   │
+					│   ├── collect_samples_2.py           # Sensor data collection and labeling script
+					│   ├── live_inference.py              # Real-time gesture inference pipeline
+					│   └── robot_control.py               # Maps predicted gestures to robot commands
+					│   └── transformer.py                 # Training the Transformer model
+					│   └── LSTM.py               		   # Training the LSTM model
+					│   └── sensor_data_collect.py         # Collect Sensor Data
+					│
+					└── README.md                          # Project overview and setup instructions
+					</code></pre>
 
-</div>
+					</div>
 
 
 					<p align="left">
