@@ -82,23 +82,30 @@
 					<section id="top" class="one dark cover">
 						<div class="container">
 
-								<iframe width="560" height="315" src="https://youtu.be/jjGkz3fGHuc" frameborder="0" allowfullscreen></iframe>
+							<iframe
+								width="560"
+								height="315"
+								src="https://www.youtube.com/embed/jjGkz3fGHuc"
+								title="GhostArm Demo (It might not open but feel free to click the YouTube link)"
+								frameborder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowfullscreen>
+							</iframe>
 
-								<h2 class="alt">Ghost Arm</h2>
-								<p align="left">
-									GhostArm is a real-time gesture recognition and robotic control system built entirely on low-power, 
-									edge-compute hardware. Using a multimodal sensor array comprised of a 3-axis IMU, an 8×8 thermal camera, 
-									and dual ultrasonic distance sensors, the system captures human arm movements and interprets them through 
-									a unified deep learning pipeline. Each sensor stream is temporally synchronized, encoded using 
-									lightweight convolutional networks, and fused within a Transformer-based temporal model. The final 
-									classifier runs locally on a Raspberry Pi, enabling low-latency gesture recognition without reliance 
-									on cloud services. GhostArm demonstrates that expressive human–robot interaction can be achieved using 
-									inexpensive sensors, efficient models, and edge-native machine learning, making the system suitable for 
-									remote control, assistive robotics, and constrained environments where privacy, bandwidth, and power 
-									are critical limitations.
-								</p>
+							<h2 class="alt">Ghost Arm</h2>
 
-
+							<p align="left">
+								GhostArm is a real-time gesture recognition and robotic control system built entirely on low-power,
+								edge-compute hardware. Using a multimodal sensor array comprised of a 3-axis IMU, an 8×8 thermal camera,
+								and dual ultrasonic distance sensors, the system captures human arm movements and interprets them through
+								a unified deep learning pipeline. Each sensor stream is temporally synchronized, encoded using
+								lightweight convolutional networks, and fused within a Transformer-based temporal model. The final
+								classifier runs locally on a Raspberry Pi, enabling low-latency gesture recognition without reliance
+								on cloud services. GhostArm demonstrates that expressive human–robot interaction can be achieved using
+								inexpensive sensors, efficient models, and edge-native machine learning, making the system suitable for
+								remote control, assistive robotics, and constrained environments where privacy, bandwidth, and power
+								are critical limitations.
+							</p>
 
 							<footer>
 								<a href="#motivation" class="button scrolly">Motivation</a>
@@ -106,6 +113,7 @@
 
 						</div>
 					</section>
+
 
 				<!-- Portfolio -->
 					<section id="motivation" class="two">
@@ -141,26 +149,50 @@
 							</article>
 							<p align="left">The block diagram illustrates the key components and their interactions within the GhostArm system.<br />
 							The system consists of the following main components:
-							<ul>
-								<li><strong>Input Sensors:</strong> These sensors capture the user's arm movements and gestures. They include accelerometers, ultrasound sensors and thermal sensors.</li>
-								<li><strong>Processing Unit:</strong> The main control unit is the Raspberry Pi. This processes the sensor data in real-time. It runs the machine learning models that interpret the user's movements. It also communicates with the robotic arm to send movement commands.</li>
-								<li><strong>Machine Learning Models:</strong> 
-									Our gesture recognition pipeline uses a multimodal deep learning architecture designed for 
-									time-series fusion. Raw data from the IMU and ultrasonic sensors is processed using lightweight 
-									1D convolutional encoders, while the thermal sensor sequence is encoded using a compact 2D CNN. 
-									All modality embeddings are fused into a single temporal sequence and passed to a Transformer 
-									encoder. We selected the Transformer over traditional recurrent models because its 
-									self-attention mechanism can model long-range temporal structure and inter-sensor relationships 
-									more effectively, especially when each modality updates at different sampling rates. This enables 
-									more robust gesture recognition under real-world variability. The resulting model is optimized 
-									to run on-device with low latency, allowing the Raspberry Pi to classify gestures in real time 
-									without cloud resources.
-								</li>
+							<div style="text-align: left;">
+								<ul>
+									<li>
+										<strong>Input Sensors:</strong>
+										These sensors capture the user's arm movements and gestures. They include
+										accelerometers, ultrasound sensors, and thermal sensors.
+									</li>
 
-								<li><strong>Robotic Arm:</strong> The physical component that executes the commands received from the processing unit. It mimics the user's arm movements based on the interpreted data.</li>
-								<li><strong>Cloud:</strong> The cloud component is responsible for storing user data and providing additional processing power when needed. It can be used for more complex computations that are not feasible on the edge device, such as actually training our models.</li>
-							</ul>
+									<li>
+										<strong>Processing Unit:</strong>
+										The main control unit is the Raspberry Pi. It processes sensor data in real time,
+										runs the machine learning models that interpret the user's movements, and
+										communicates with the robotic arm to send movement commands.
+									</li>
 
+									<li>
+										<strong>Machine Learning Models:</strong>
+										Our gesture recognition pipeline uses a multimodal deep learning architecture
+										designed for time-series fusion. Raw data from the IMU and ultrasonic sensors
+										is processed using lightweight 1D convolutional encoders, while the thermal
+										sensor sequence is encoded using a compact 2D CNN. All modality embeddings
+										are fused into a single temporal sequence and passed to a Transformer encoder.
+										We selected the Transformer over traditional recurrent models because its
+										self-attention mechanism can model long-range temporal structure and
+										inter-sensor relationships more effectively, especially when each modality
+										updates at different sampling rates. This enables more robust gesture
+										recognition under real-world variability. The resulting model is optimized
+										to run on-device with low latency, allowing the Raspberry Pi to classify
+										gestures in real time without cloud resources.
+									</li>
+
+									<li>
+										<strong>Robotic Arm:</strong>
+										The physical component that executes commands received from the processing
+										unit, mimicking the user's arm movements based on the interpreted data.
+									</li>
+
+									<li>
+										<strong>Cloud:</strong>
+										The cloud component stores user data and provides additional processing power
+										when needed, such as during offline model training or large-scale experiments.
+									</li>
+								</ul>
+							</div>
 
 
 							<h3 align="left">Technical Components</h3>
@@ -249,7 +281,7 @@
 
 							<h3 align="left">Prototype</h3>
 
-							<p align="left">Blah blah blah</p>
+							<p align="left">The prototype developed for this project demonstrates an end-to-end gesture-controlled robotic system that integrates multimodal sensing, on-device machine learning inference, and real-time actuation. A Raspberry Pi serves as the central processing unit, collecting synchronized data from an accelerometer, thermal imaging sensor, and dual ultrasonic distance sensors to capture complementary aspects of user motion. This data is processed in real time by a lightweight multimodal deep learning model optimized for embedded execution, which classifies gestures with low latency. The predicted gestures are then translated into control commands and transmitted to an Arduino-controlled robotic arm, enabling closed-loop operation entirely at the edge without reliance on cloud resources.</p>
 
 
 
