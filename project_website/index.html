@@ -260,19 +260,57 @@
 								<h2>Results</h2>
 							</header>
 
-							<p align="left">Remember to use figures to help illustrate results</p>
+							<p align="left">
+								This section presents the performance of the two gesture recognition models evaluated in this project:
+								a bidirectional LSTM-based model and a Transformer-based model. Accuracy curves are shown to illustrate
+								training dynamics, convergence behavior, and generalization performance.
+							</p>
 
-
+							<!-- LSTM Results -->
 							<article class="item">
-								<a href="#" class="image fit"><img src="images/pic06.jpg" alt="" /></a>
+								<a href="images/training_curve_lstm.png" class="image fit">
+									<img src="images/training_curve_lstm.png" alt="LSTM Training and Validation Accuracy" />
+								</a>
 								<header>
-									<h3>Caption</h3>
+									<h3>LSTM-Based Multimodal Model</h3>
 								</header>
+								<p align="left">
+									The bidirectional LSTM model demonstrates steady learning behavior, with training and validation
+									accuracy improving consistently over epochs. The relatively small gap between training and validation
+									curves suggests limited overfitting and reasonable generalization to unseen data.
+									This model benefits from explicit temporal modeling, making it well-suited for short, fixed-duration
+									gesture sequences.
+								</p>
 							</article>
 
+							<!-- Transformer Results -->
+							<article class="item">
+								<a href="images/transformer_training_curve.png" class="image fit">
+									<img src="images/transformer_training_curve.png" alt="Transformer Training and Validation Accuracy" />
+								</a>
+								<header>
+									<h3>Transformer-Based Multimodal Model</h3>
+								</header>
+								<p align="left">
+									The Transformer-based model achieves higher peak validation accuracy compared to the LSTM,
+									indicating improved representational capacity for multimodal sensor fusion.
+									However, the wider gap between training and validation accuracy suggests a higher risk of overfitting,
+									likely due to increased model complexity and the limited size of the dataset.
+									This behavior highlights the importance of regularization and data scaling when using attention-based
+									architectures on embedded or small-scale datasets.
+								</p>
+							</article>
+
+							<p align="left">
+								Overall, both models successfully learn discriminative representations from fused IMU, thermal,
+								and ultrasonic data. While the Transformer offers stronger performance potential, the LSTM provides
+								a more stable and computationally efficient solution, making it a compelling choice for real-time,
+								on-device inference on resource-constrained platforms such as the Raspberry Pi.
+							</p>
 
 						</div>
 					</section>
+
 
 					<section id="references" class="three">
 						<div class="container">
